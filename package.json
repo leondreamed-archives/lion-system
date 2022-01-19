@@ -12,6 +12,7 @@
 	},
 	"scripts": {
 		"release": "lionp",
+		"build": "node-ts ./scripts/build.ts",
 		"prepare": "simple-git-hooks",
 		"start": "node-ts ./src/index.ts",
 		"test": "NODE_OPTIONS=--experimental-vm-modules jest",
