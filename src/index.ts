@@ -1,1 +1,1 @@
-export { packageFiles, copyPackageFiles, rmDist } from './utils/index.js';
+export { packageFiles, copyPackageFiles, copyPackageFilesSync, rmDist } from './utils/index.js';

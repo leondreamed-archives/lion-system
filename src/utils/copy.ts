@@ -18,3 +18,18 @@ export async function copyPackageFiles(additionalFiles?: string[]) {
 		})
 	);
 }
+
+export function copyPackageFilesSync(additionalFiles?: string[]) {
+	if (!fs.existsSync('dist')) {
+		fs.mkdirSync('dist');
+	}
+
+	for (const packageFile of [...packageFiles, ...(additionalFiles ?? [])]) {
+		if (fs.existsSync(packageFile)) {
+			fs.cpSync(packageFile, path.join('dist', packageFile), {
+				recursive: true,
+			});
+		}
+	}
+}
+
