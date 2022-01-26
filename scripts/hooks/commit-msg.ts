@@ -5,7 +5,6 @@ import { join } from 'desm';
 process.chdir(join(import.meta.url, '../..'));
 
 const message = process.argv.at(-1);
-console.log(message, process.cwd());
 
 if (message === undefined) {
 	throw new Error('No message provided.');
