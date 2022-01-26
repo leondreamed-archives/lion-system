@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@commitlint/cli': ^15.0.0
-  '@leonzalion/configs': ^1.0.42
+  '@leonzalion/configs': ^1.0.43
   '@types/jest': ^27.0.3
   '@types/node': ^17.0.0
   desm: ^1.2.0
@@ -27,7 +27,7 @@ dependencies:
 
 devDependencies:
   '@commitlint/cli': 15.0.0
-  '@leonzalion/configs': 1.0.42_02115901e3f5f7c073246cfb53daed88
+  '@leonzalion/configs': 1.0.43_02115901e3f5f7c073246cfb53daed88
   '@types/jest': 27.4.0
   '@types/node': 17.0.10
   desm: 1.2.0
@@ -852,8 +852,8 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@leonzalion/configs/1.0.42_02115901e3f5f7c073246cfb53daed88:
-    resolution: {integrity: sha512-qeCuMlmqLHpa9C8hLlPbxBqkSirDrN6KyBjpktMj5VfxfjMu7kfNDwLxl1jSgc/lwgdWOVdiME39xmUoZ9PXIg==}
+  /@leonzalion/configs/1.0.43_02115901e3f5f7c073246cfb53daed88:
+    resolution: {integrity: sha512-zJ1FCvihqBITneTpWXgWKD81HwLteHlohC5pm3j5seKIZHuINpdC+YhgZifJbik70QN5316nK9/T50Cm5oPFlA==}
     hasBin: true
     peerDependencies:
       eslint: ^8.4.0
@@ -879,6 +879,7 @@ packages:
       eslint-plugin-simple-import-sort: 7.0.0_eslint@8.7.0
       eslint-plugin-unicorn: 39.0.0_eslint@8.7.0
       eslint-plugin-vue: 8.3.0_eslint@8.7.0
+      minimist: 1.2.5
       ts-node: 10.4.0_b2f0d61c1b17db3427300f11886cbcae
       tsconfig-paths: 3.12.0
       xo: 0.47.0

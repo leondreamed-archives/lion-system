@@ -22,7 +22,7 @@
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^15.0.0",
-		"@leonzalion/configs": "^1.0.42",
+		"@leonzalion/configs": "^1.0.43",
 		"@types/jest": "^27.0.3",
 		"@types/node": "^17.0.0",
 		"desm": "^1.2.0",
