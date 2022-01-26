@@ -28,8 +28,8 @@ export function getProjectDir(pathUrl: string) {
 		packageJson.type === 'module' &&
 		Object.keys(packageJson).length === 1
 	) {
-		const curDirectory = path.dirname(packageJsonPath);
-		({ packageJson, packageJsonPath } = getPackageJson(curDirectory));
+		const upperDirectory = path.join(path.dirname(packageJsonPath), '..');
+		({ packageJson, packageJsonPath } = getPackageJson(upperDirectory));
 	}
 
 	const projectPath = path.dirname(packageJsonPath);
