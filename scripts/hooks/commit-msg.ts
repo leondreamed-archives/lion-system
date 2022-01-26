@@ -1,5 +1,8 @@
 import process from 'node:process';
 import { execaSync } from 'execa';
+import { join } from 'desm';
+
+process.chdir(join(import.meta.url, '../..'));
 
 const message = process.argv.at(-1);
 
