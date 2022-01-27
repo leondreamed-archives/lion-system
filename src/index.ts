@@ -1,7 +1,6 @@
 export {
 	packageFiles,
 	copyPackageFiles,
-	copyPackageFilesSync,
 	chProjectDir,
 	getProjectDir,
 	rmDist,

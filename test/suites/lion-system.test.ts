@@ -1,11 +1,7 @@
 import process from 'node:process';
 import path from 'node:path';
 import * as fs from 'node:fs';
-import {
-	copyPackageFiles,
-	copyPackageFilesSync,
-	getProjectDir,
-} from '~/utils/index.js';
+import { copyPackageFiles, getProjectDir } from '~/utils/index.js';
 import { projectTestPath } from '~test/utils/paths.js';
 
 afterEach(() => {
@@ -13,18 +9,9 @@ afterEach(() => {
 });
 
 describe('successfully copies files', () => {
-	test('successfully copies files asynchronously', async () => {
+	test('successfully copies files', () => {
 		process.chdir(path.join(projectTestPath, 'fixtures/my-project'));
-		await copyPackageFiles(['custom-file', 'custom-folder']);
-		expect(fs.existsSync('dist/readme.md')).toBe(true);
-		expect(fs.existsSync('dist/custom-file')).toBe(true);
-		expect(fs.existsSync('dist/custom-folder')).toBe(true);
-		expect(fs.existsSync('dist/custom-folder/some-file')).toBe(true);
-	});
-
-	test('successfully copies files synchronously', () => {
-		process.chdir(path.join(projectTestPath, 'fixtures/my-project'));
-		copyPackageFilesSync(['custom-file', 'custom-folder']);
+		copyPackageFiles(['custom-file', 'custom-folder']);
 		expect(fs.existsSync('dist/readme.md')).toBe(true);
 		expect(fs.existsSync('dist/custom-file')).toBe(true);
 		expect(fs.existsSync('dist/custom-folder')).toBe(true);
