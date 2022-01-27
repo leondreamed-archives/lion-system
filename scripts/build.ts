@@ -6,6 +6,7 @@ import { join } from 'desm';
 
 process.chdir(join(import.meta.url, '..'));
 
+fs.rmSync('dist', { recursive: true, force: true });
 exec('tsc');
 for (const file of ['readme.md', 'package.json']) {
 	fs.copyFileSync(file, path.join('dist', file));
