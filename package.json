@@ -18,7 +18,7 @@
 	"scripts": {
 		"release": "lionp",
 		"build": "node-ts ./scripts/build.ts",
-		"prepare": "simple-git-hooks",
+		"prepare": "lion-git-hooks",
 		"start": "node-ts ./src/index.ts",
 		"test": "NODE_OPTIONS=--experimental-vm-modules jest",
 		"lint": "eslint --cache --fix .",
@@ -34,21 +34,14 @@
 		"eslint": "^8.10.0",
 		"jest": "^27.5.1",
 		"lint-staged": "^12.3.4",
+		"lion-git-hooks": "^1.0.6",
 		"lionp": "^1.0.19",
 		"prettier": "^2.5.1",
-		"rimraf": "^3.0.2",
-		"simple-git-hooks": "^2.7.0",
 		"sync-index": "^1.0.12",
 		"ts-jest": "^27.1.3",
 		"ts-jest-resolver": "^2.0.0",
 		"tsc-alias": "^1.6.3",
-		"tsm": "^2.2.1",
 		"typescript": "^4.5.5"
-	},
-	"simple-git-hooks": {
-		"pre-commit": "pnpm exec node-ts ./scripts/hooks/pre-commit.ts",
-		"pre-push": "pnpm exec node-ts ./scripts/hooks/pre-push.ts",
-		"commit-msg": "pnpm exec node-ts ./scripts/hooks/commit-msg.ts $@"
 	},
 	"lint-staged": {
 		"*.{js,ts}": [
