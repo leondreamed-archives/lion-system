@@ -4,6 +4,11 @@
 	"main": "index.js",
 	"type": "module",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/leonzalion/lion-system.git"
+	},
+	"homepage": "https://github.com/leonzalion/lion-system#readme",
 	"prettier": "@leonzalion/configs/prettier",
 	"commitlint": {
 		"extends": [
