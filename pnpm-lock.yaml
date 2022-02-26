@@ -14,7 +14,6 @@ specifiers:
   lionp: ^1.0.19
   pkg-up: ^4.0.0
   prettier: ^2.5.1
-  rimraf: ^3.0.2
   sync-index: ^1.0.12
   ts-jest: ^27.1.3
   ts-jest-resolver: ^2.0.0
@@ -37,7 +36,6 @@ devDependencies:
   lion-git-hooks: 1.0.6
   lionp: 1.0.19
   prettier: 2.5.1
-  rimraf: 3.0.2
   sync-index: 1.0.12
   ts-jest: 27.1.3_8fa130d172bf7d71653f05507c50c5a3
   ts-jest-resolver: 2.0.0
