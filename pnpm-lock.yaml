@@ -10,7 +10,7 @@ specifiers:
   execa: ^6.1.0
   jest: ^27.5.1
   lint-staged: ^12.3.4
-  lionp: ^1.0.18
+  lionp: ^1.0.19
   pkg-up: ^4.0.0
   prettier: ^2.5.1
   rimraf: ^3.0.2
@@ -35,7 +35,7 @@ devDependencies:
   eslint: 8.10.0
   jest: 27.5.1
   lint-staged: 12.3.4
-  lionp: 1.0.18
+  lionp: 1.0.19
   prettier: 2.5.1
   rimraf: 3.0.2
   simple-git-hooks: 2.7.0
@@ -4893,8 +4893,8 @@ packages:
       pkg-up: 4.0.0
     dev: true
 
-  /lionp/1.0.18:
-    resolution: {integrity: sha512-2o3m/n5bAUQTopyNOm/pVUdzrRmOEBeS2fg9C2f4BCzZ8QA731h9IzXGdvWXoJALqCU8NLBPJgNe2LjaTIUk6g==}
+  /lionp/1.0.19:
+    resolution: {integrity: sha512-RNomRUlpPdCVpJhxLMvTtDyqw5E3AzQl1Y58fLsxySq/Xoks4jDSnudn8iJAj3aQ8/893gLijMnkNzDyD6x4vQ==}
     engines: {git: '>=2.11.0', node: '>=10', npm: '>=6.8.0'}
     hasBin: true
     dependencies:
