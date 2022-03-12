@@ -4,6 +4,10 @@ import * as process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { pkgUpSync } from 'pkg-up';
 
+type GetProjectDirOptions = {
+	monorepoRoot?: boolean;
+};
+
 /**
  * Gets the base project directory (for monorepos, the root project) using
  * the following heuristic:
@@ -16,7 +20,7 @@ import { pkgUpSync } from 'pkg-up';
  */
 export function getProjectDir(
 	pathUrl: string,
-	{ monorepoRoot }: { monorepoRoot?: boolean } = {}
+	{ monorepoRoot }: GetProjectDirOptions = {}
 ) {
 	// If pnpm-lock.yaml doesn't exist in the directory, continue checking in the above directory
 	if (monorepoRoot) {
@@ -59,7 +63,7 @@ export function getProjectDir(
 	}
 }
 
-export function chProjectDir(pathUrl: string) {
-	const projectPath = getProjectDir(pathUrl);
+export function chProjectDir(pathUrl: string, options: GetProjectDirOptions) {
+	const projectPath = getProjectDir(pathUrl, options);
 	process.chdir(projectPath);
 }
