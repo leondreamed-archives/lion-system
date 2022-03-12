@@ -1,10 +1,4 @@
-export {
-	packageFiles,
-	copyPackageFiles,
-	chProjectDir,
-	getProjectDir,
-	rmDist,
-	commitMsg,
-	preCommit,
-	prePush,
-} from './utils/index.js';
+export { packageFiles, copyPackageFiles } from './utils/copy.js';
+export { rmDist } from './utils/rm.js';
+export { chProjectDir, getProjectDir } from './utils/project-dir.js';
+export { commitMsg, preCommit, prePush } from './utils/hooks.js';

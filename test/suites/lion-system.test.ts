@@ -1,7 +1,8 @@
-import process from 'node:process';
-import path from 'node:path';
+import * as process from 'node:process';
+import * as path from 'node:path';
 import * as fs from 'node:fs';
-import { copyPackageFiles, getProjectDir } from '~/utils/index.js';
+import { afterEach, describe, test, expect } from 'vitest';
+import { copyPackageFiles, getProjectDir } from '~/index.js';
 import { projectTestPath } from '~test/utils/paths.js';
 
 afterEach(() => {
@@ -15,7 +16,7 @@ describe('successfully copies files', () => {
 		expect(fs.existsSync('dist/readme.md')).toBe(true);
 		expect(fs.existsSync('dist/custom-file')).toBe(true);
 		expect(fs.existsSync('dist/custom-folder')).toBe(true);
-		expect(fs.existsSync('dist/custom-folder/some-file')).toBe(true);
+		expect(fs.existsSync('dist/custom-folder/custom-folder-file')).toBe(true);
 	});
 
 	test('successfully gets the correct project directory', () => {
@@ -23,10 +24,18 @@ describe('successfully copies files', () => {
 			projectTestPath,
 			'fixtures/my-project'
 		);
-		const customFolderPath = `file://${path.join(
+		const subprojectFolderPath = `file://${path.join(
 			projectFixturePath,
-			'custom-folder'
+			'packages/subproject/subproject-folder'
 		)}`;
-		expect(getProjectDir(customFolderPath)).toBe(projectFixturePath);
+		expect(getProjectDir(subprojectFolderPath)).toBe(
+			path.join(projectFixturePath, 'packages/subproject')
+		);
+		expect(getProjectDir(subprojectFolderPath, { monorepoRoot: false })).toBe(
+			path.join(projectFixturePath, 'packages/subproject')
+		);
+		expect(getProjectDir(subprojectFolderPath, { monorepoRoot: true })).toBe(
+			projectFixturePath
+		);
 	});
 });
