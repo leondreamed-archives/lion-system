@@ -18,12 +18,9 @@ type GetProjectDirOptions = {
  * pnpm-workspace.yaml file with a `packages` property that has a matching glob
  * entry that matches
  */
-export function getProjectDir(
-	pathUrl: string,
-	{ monorepoRoot }: GetProjectDirOptions = {}
-) {
+export function getProjectDir(pathUrl: string, options?: GetProjectDirOptions) {
 	// If pnpm-lock.yaml doesn't exist in the directory, continue checking in the above directory
-	if (monorepoRoot) {
+	if (options?.monorepoRoot) {
 		let curDirectory = path.dirname(fileURLToPath(pathUrl));
 		while (!fs.existsSync(path.join(curDirectory, 'pnpm-lock.yaml'))) {
 			curDirectory = path.dirname(curDirectory);
@@ -63,7 +60,7 @@ export function getProjectDir(
 	}
 }
 
-export function chProjectDir(pathUrl: string, options: GetProjectDirOptions) {
+export function chProjectDir(pathUrl: string, options?: GetProjectDirOptions) {
 	const projectPath = getProjectDir(pathUrl, options);
 	process.chdir(projectPath);
 }
