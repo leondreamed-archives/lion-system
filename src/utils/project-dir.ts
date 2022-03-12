@@ -2,6 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { pkgUpSync } from 'pkg-up';
 
 /**
  * Gets the base project directory (for monorepos, the root project) using
@@ -13,17 +14,49 @@ import { fileURLToPath } from 'node:url';
  * pnpm-workspace.yaml file with a `packages` property that has a matching glob
  * entry that matches
  */
-export function getProjectDir(pathUrl: string) {
-	let curDirectory = path.dirname(fileURLToPath(pathUrl));
-
+export function getProjectDir(
+	pathUrl: string,
+	{ monorepoRoot }: { monorepoRoot?: boolean } = {}
+) {
 	// If pnpm-lock.yaml doesn't exist in the directory, continue checking in the above directory
-	while (!fs.existsSync(path.join(curDirectory, 'pnpm-lock.yaml'))) {
-		curDirectory = path.dirname(curDirectory);
+	if (monorepoRoot) {
+		let curDirectory = path.dirname(fileURLToPath(pathUrl));
+		while (!fs.existsSync(path.join(curDirectory, 'pnpm-lock.yaml'))) {
+			curDirectory = path.dirname(curDirectory);
+		}
+
+		return curDirectory;
+	} else {
+		const pathDirectory = path.dirname(fileURLToPath(pathUrl));
+		const getPackageJson = (cwd: string) => {
+			const packageJsonPath = pkgUpSync({ cwd });
+			if (packageJsonPath === undefined) {
+				throw new Error('No project found.');
+			}
+
+			const packageJson = JSON.parse(
+				fs.readFileSync(packageJsonPath).toString()
+			) as {
+				type: string;
+			};
+
+			return { packageJson, packageJsonPath };
+		};
+
+		let { packageJson, packageJsonPath } = getPackageJson(pathDirectory);
+
+		// If the package.json only has "type": "module", search for another one
+		while (
+			packageJson.type === 'module' &&
+			Object.keys(packageJson).length === 1
+		) {
+			const upperDirectory = path.join(path.dirname(packageJsonPath), '..');
+			({ packageJson, packageJsonPath } = getPackageJson(upperDirectory));
+		}
+
+		const projectPath = path.dirname(packageJsonPath);
+		return projectPath;
 	}
-
-	// Check whether there is a package.json
-
-	return curDirectory;
 }
 
 export function chProjectDir(pathUrl: string) {
