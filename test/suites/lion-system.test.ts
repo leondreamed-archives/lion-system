@@ -2,7 +2,7 @@ import * as process from 'node:process';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 import { afterEach, describe, test, expect } from 'vitest';
-import { copyPackageFiles, getProjectDir } from '~/index.js';
+import { copyPackageFiles, getProjectDir, rewriteDistPaths } from '~/index.js';
 import { projectTestPath } from '~test/utils/paths.js';
 
 afterEach(() => {
@@ -38,4 +38,61 @@ describe('successfully copies files', () => {
 			projectFixturePath
 		);
 	});
+});
+
+test('rewriteDistPaths() works', () => {
+	const beforeObj = {
+		icons: './dist/icons.png',
+		main: './dist/index.js',
+		folder: './',
+		contributes: {
+			languages: [
+				{
+					configuration: './dist/syntaxes/jslatex-language-configuration.json',
+					icon: {
+						light: './icons/jslatex.png',
+						dark: './icons/jslatex.png',
+					},
+				},
+			],
+			grammars: [
+				{
+					path: './dist/syntaxes/JSLaTeX.tmLanguage.json',
+					embeddedLanguages: {
+						'source.js': 'javascript',
+						'meta.embedded.block.latex': 'latex',
+					},
+				},
+			],
+		},
+	};
+
+	const afterObj = {
+		icons: './icons.png',
+		main: './index.js',
+		folder: './',
+		contributes: {
+			languages: [
+				{
+					configuration: './syntaxes/jslatex-language-configuration.json',
+					icon: {
+						light: './icons/jslatex.png',
+						dark: './icons/jslatex.png',
+					},
+				},
+			],
+			grammars: [
+				{
+					path: './syntaxes/JSLaTeX.tmLanguage.json',
+					embeddedLanguages: {
+						'source.js': 'javascript',
+						'meta.embedded.block.latex': 'latex',
+					},
+				},
+			],
+		},
+	};
+
+	expect(rewriteDistPaths(beforeObj)).toEqual(afterObj);
+	expect(rewriteDistPaths(JSON.stringify(beforeObj))).toEqual(afterObj);
 });
