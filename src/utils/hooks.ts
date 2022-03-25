@@ -1,7 +1,10 @@
 import process from 'node:process';
 import { execaCommandSync as exec, execaSync } from 'execa';
+import { getCurrentGitBranch } from '~/utils/git.js';
 
 export function preCommit() {
+	if (getCurrentGitBranch() === 'dev') return;
+
 	try {
 		exec('pnpm exec lint-staged', { stdio: 'inherit' });
 	} catch {
@@ -10,6 +13,8 @@ export function preCommit() {
 }
 
 export function prePush() {
+	if (getCurrentGitBranch() === 'dev') return;
+
 	try {
 		exec('pnpm run tc', { stdio: 'inherit' });
 	} catch {
