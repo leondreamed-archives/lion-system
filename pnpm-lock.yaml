@@ -10,7 +10,7 @@ specifiers:
   execa: ^6.1.0
   lint-staged: ^12.3.4
   lion-git-hooks: ^1.0.7
-  lionp: ^1.0.21
+  lionp: ^1.0.23
   pkg-up: ^4.0.0
   prettier: ^2.5.1
   sync-index: ^1.0.13
@@ -32,7 +32,7 @@ devDependencies:
   eslint: 8.10.0
   lint-staged: 12.3.4
   lion-git-hooks: 1.0.7
-  lionp: 1.0.21
+  lionp: 1.0.23
   prettier: 2.5.1
   sync-index: 1.0.13
   tsc-alias: 1.6.3
@@ -3392,8 +3392,8 @@ packages:
       pkg-up: 4.0.0
     dev: true
 
-  /lionp/1.0.21:
-    resolution: {integrity: sha512-MYOZKVbYLsHFj0wrntms++kcx+QVMdYoG8Fqosho3aGyJvJvd5BeuDKxl8p6Dbaizrx7jTxoz9/NR8hbAyh0mA==}
+  /lionp/1.0.23:
+    resolution: {integrity: sha512-jgdcKhKQvC4JHuRBgD2R/Sp+6kqztWdNWvJDXkVSd+OkQjibraDUxJA12mWutq+BxRYyAYUGI6QxKLETTBKpLg==}
     engines: {git: '>=2.11.0', node: '>=10', npm: '>=6.8.0'}
     hasBin: true
     dependencies:
