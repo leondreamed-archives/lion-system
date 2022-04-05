@@ -2,7 +2,7 @@ import * as process from 'node:process';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 import { afterEach, describe, test, expect } from 'vitest';
-import { copyPackageFiles, getProjectDir, rewriteDistPaths } from '~/index.js';
+import { copyPackageFiles, getProjectDir, rewritePkgPaths } from '~/index.js';
 import { projectTestPath } from '~test/utils/paths.js';
 
 afterEach(() => {
@@ -93,6 +93,6 @@ test('rewriteDistPaths() works', () => {
 		},
 	};
 
-	expect(rewriteDistPaths(beforeObj)).toEqual(afterObj);
-	expect(rewriteDistPaths(JSON.stringify(beforeObj))).toEqual(afterObj);
+	expect(rewritePkgPaths(beforeObj)).toEqual(afterObj);
+	expect(rewritePkgPaths(JSON.stringify(beforeObj))).toEqual(afterObj);
 });
