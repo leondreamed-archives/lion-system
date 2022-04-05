@@ -1,7 +1,7 @@
 {
 	"name": "lion-system",
 	"version": "1.1.0",
-	"main": "index.js",
+	"main": "./src/index.js",
 	"type": "module",
 	"license": "MIT",
 	"repository": {
