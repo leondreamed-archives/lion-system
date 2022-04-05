@@ -13,13 +13,14 @@ export function rewritePkgPaths(json: string | Record<string, unknown>) {
 
 	for (const property of deepKeys(obj)) {
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-		const value = getProperty(json, property) as unknown;
-		if (typeof value === 'string')
+		const value = getProperty(obj, property) as unknown;
+		if (typeof value === 'string') {
 			if (value.startsWith('./dist')) {
 				setProperty(obj, property, value.replace(/^\.\/dist\//, './'));
 			} else if (value.startsWith('./src')) {
 				setProperty(obj, property, value.replace(/^\.\/src\//, './'));
 			}
+		}
 	}
 
 	return obj;

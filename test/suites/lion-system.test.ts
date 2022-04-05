@@ -43,7 +43,7 @@ describe('successfully copies files', () => {
 test('rewriteDistPaths() works', () => {
 	const beforeObj = {
 		icons: './dist/icons.png',
-		main: './dist/index.js',
+		main: './src/index.js',
 		folder: './',
 		contributes: {
 			languages: [

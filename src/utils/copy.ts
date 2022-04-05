@@ -9,14 +9,14 @@ export function copyPackageFiles(additionalFiles?: string[]) {
 		fs.mkdirSync('dist');
 	}
 
-	for (const packageFile of [...packageFiles, ...(additionalFiles ?? [])]) {
-		if (fs.existsSync(packageFile)) {
-			const distPackageFilePath = path.join('dist', packageFile);
-			fs.cpSync(packageFile, distPackageFilePath, {
+	for (const packageFilePath of [...packageFiles, ...(additionalFiles ?? [])]) {
+		if (fs.existsSync(packageFilePath)) {
+			const distPackageFilePath = path.join('dist', packageFilePath);
+			fs.cpSync(packageFilePath, distPackageFilePath, {
 				recursive: true,
 			});
 
-			if (packageFile === 'package.json') {
+			if (path.parse(packageFilePath).base === 'package.json') {
 				fs.writeFileSync(
 					distPackageFilePath,
 					JSON.stringify(
