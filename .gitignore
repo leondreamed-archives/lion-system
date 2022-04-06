@@ -123,3 +123,4 @@ dist-ssr
 tsconfig.tsbuildinfo
 
 temp
+.DS_Store
