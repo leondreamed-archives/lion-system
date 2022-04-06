@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import process from 'node:process';
 import { execaCommandSync as exec, execaSync } from 'execa';
 import { getCurrentGitBranch } from '~/utils/git.js';
@@ -16,7 +17,11 @@ export function prePush() {
 	if (getCurrentGitBranch() === 'dev') return;
 
 	try {
-		exec('pnpm run tc', { stdio: 'inherit' });
+		if (fs.existsSync('pnpm-workspace.yaml')) {
+			exec('pnpm run -w tc', { stdio: 'inherit' });
+		} else {
+			exec('pnpm run tc', { stdio: 'inherit' });
+		}
 	} catch {
 		process.exit(1);
 	}
