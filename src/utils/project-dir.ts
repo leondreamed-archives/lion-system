@@ -21,7 +21,14 @@ type GetProjectDirOptions = {
 export function getProjectDir(pathUrl: string, options?: GetProjectDirOptions) {
 	// If pnpm-lock.yaml doesn't exist in the directory, continue checking in the above directory
 	if (options?.monorepoRoot) {
-		let curDirectory = path.dirname(fileURLToPath(pathUrl));
+		let curDirectory = pathUrl.startsWith('file://')
+			? fileURLToPath(pathUrl)
+			: pathUrl;
+
+		if (fs.statSync(curDirectory).isFile()) {
+			curDirectory = path.dirname(curDirectory);
+		}
+
 		while (!fs.existsSync(path.join(curDirectory, 'pnpm-lock.yaml'))) {
 			curDirectory = path.dirname(curDirectory);
 		}

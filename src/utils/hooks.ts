@@ -1,7 +1,9 @@
-import fs from 'node:fs';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import process from 'node:process';
 import { execaCommandSync as exec, execaSync } from 'execa';
 import { getCurrentGitBranch } from '~/utils/git.js';
+import { getProjectDir } from '~/utils/project-dir.js';
 
 export function preCommit() {
 	if (getCurrentGitBranch() === 'dev') return;
@@ -17,7 +19,8 @@ export function prePush() {
 	if (getCurrentGitBranch() === 'dev') return;
 
 	try {
-		if (fs.existsSync('pnpm-workspace.yaml')) {
+		const monorepoDir = getProjectDir(process.cwd(), { monorepoRoot: true });
+		if (fs.existsSync(path.join(monorepoDir, 'pnpm-workspace.yaml'))) {
 			exec('pnpm run -w tc', { stdio: 'inherit' });
 		} else {
 			exec('pnpm run tc', { stdio: 'inherit' });
