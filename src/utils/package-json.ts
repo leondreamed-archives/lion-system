@@ -1,5 +1,6 @@
 import { deepKeys, getProperty, setProperty } from 'dot-prop';
 import * as fs from 'node:fs';
+import * as path from 'node:path';
 import process from 'node:process';
 import rfdc from 'rfdc';
 import type { PackageJson } from 'type-fest';
@@ -64,7 +65,7 @@ export async function transformPackageJson(
 		pkg = JSON.parse(
 			await fs.promises.readFile('package.json', 'utf8')
 		) as PackageJson;
-		pkgPath = process.cwd();
+		pkgPath = path.join(process.cwd(), 'package.json');
 	}
 
 	if (commonjs) {
