@@ -43,8 +43,13 @@ export async function createCommonjsBundle({
 		format: 'commonjs',
 	});
 
+	const exportsWithoutExtension = path.join(
+		path.dirname(pkg.exports),
+		path.parse(pkg.exports).name
+	);
+
 	pkg.exports = {
-		import: pkg.exports,
+		import: `./${exportsWithoutExtension}.js`,
 		require: './index.cjs',
 	};
 }
