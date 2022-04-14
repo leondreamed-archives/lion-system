@@ -1,7 +1,9 @@
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
 import * as fs from 'node:fs';
+import { builtinModules } from 'node:module';
 import * as path from 'node:path';
 import { rollup } from 'rollup';
 import type { PackageJson } from 'type-fest';
@@ -27,8 +29,9 @@ export async function createCommonjsBundle({
 	}
 
 	const bundle = await rollup({
-		plugins: [json(), nodeResolve(), commonjs()],
+		plugins: [json(), nodeResolve(), commonjs(), typescript()],
 		input: path.join(path.dirname(pkgPath), pkg.exports),
+		external: builtinModules.flatMap((module) => [module, `node:${module}`]),
 	});
 
 	if (!fs.existsSync('dist')) {
