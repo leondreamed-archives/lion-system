@@ -40,12 +40,12 @@ export async function createCommonjsBundle({
 
 	// Weird typing for `plugins` comes from rollup
 	const plugins: Array<false | null | undefined | Plugin> = [
-		json(),
-		nodeResolve(),
-		commonjs(),
 		peerDepsExternal({
 			packageJsonPath: pkgPath,
 		}) as Plugin,
+		json(),
+		nodeResolve(),
+		commonjs(),
 	];
 
 	if (rollupOptions?.extendPlugins !== undefined) {
