@@ -1,5 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import type { PackageJson } from 'type-fest';
 
 import { transformPackageJson } from '~/utils/package-json.js';
 
@@ -33,10 +34,13 @@ export async function copyPackageFiles({
 			if (path.parse(packageFilePath).base === 'package.json') {
 				const transformedPackageJson =
 					// eslint-disable-next-line no-await-in-loop
-					await transformPackageJson(
-						fs.readFileSync(distPackageFilePath, 'utf8'),
-						{ commonjs }
-					);
+					await transformPackageJson({
+						pkg: JSON.parse(
+							fs.readFileSync(distPackageFilePath, 'utf8')
+						) as PackageJson,
+						pkgPath: distPackageFilePath,
+						commonjs,
+					});
 
 				fs.writeFileSync(
 					distPackageFilePath,
