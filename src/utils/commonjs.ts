@@ -7,7 +7,7 @@ import * as fs from 'node:fs';
 import { builtinModules } from 'node:module';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { Plugin, RollupOptions } from 'rollup';
+import type { ExternalOption, Plugin, RollupOptions } from 'rollup';
 import { rollup } from 'rollup';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import type { PackageJson } from 'type-fest';
@@ -61,10 +61,23 @@ export async function createCommonjsBundle({
 		);
 	}
 
+	let external: ExternalOption = builtinModules.flatMap((module) => [
+		module,
+		`node:${module}`,
+	]);
+
+	if (rollupOptions?.external) {
+		if (typeof rollupOptions.external === 'function') {
+			external = rollupOptions.external;
+		} else {
+			external.push(...[rollupOptions.external].flat());
+		}
+	}
+
 	const bundle = await rollup({
 		plugins,
 		input: path.join(pkgDir, pkg.exports),
-		external: builtinModules.flatMap((module) => [module, `node:${module}`]),
+		external,
 		...rollupOptions,
 	});
 
