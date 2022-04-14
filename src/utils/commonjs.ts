@@ -2,8 +2,9 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import { resolve as importMetaResolve } from 'import-meta-resolve';
 import * as fs from 'node:fs';
-import { builtinModules, createRequire } from 'node:module';
+import { builtinModules } from 'node:module';
 import * as path from 'node:path';
 import type { Plugin, RollupOptions } from 'rollup';
 import { rollup } from 'rollup';
@@ -54,7 +55,7 @@ export async function createCommonjsBundle({
 		plugins.push(
 			typescript({
 				tsconfig: tsconfigPath,
-				tslib: createRequire(import.meta.url).resolve('tslib'),
+				tslib: importMetaResolve('tslib', import.meta.url),
 			})
 		);
 	}
