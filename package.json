@@ -1,6 +1,6 @@
 {
 	"name": "lion-system",
-	"version": "1.3.4",
+	"version": "1.3.5",
 	"exports": "./src/index.ts",
 	"types": "./dist/index.d.ts",
 	"type": "module",
