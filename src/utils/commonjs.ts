@@ -5,6 +5,7 @@ import typescript from '@rollup/plugin-typescript';
 import * as fs from 'node:fs';
 import { builtinModules } from 'node:module';
 import * as path from 'node:path';
+import type { Plugin } from 'rollup';
 import { rollup } from 'rollup';
 import type { PackageJson } from 'type-fest';
 
@@ -28,9 +29,22 @@ export async function createCommonjsBundle({
 		);
 	}
 
+	const pkgDir = path.dirname(pkgPath);
+	const tsconfigPath = path.join(pkgDir, 'tsconfig.json');
+
+	const plugins: Plugin[] = [json(), nodeResolve(), commonjs()];
+
+	if (fs.existsSync(tsconfigPath)) {
+		plugins.push(
+			typescript({
+				tsconfig: tsconfigPath,
+			})
+		);
+	}
+
 	const bundle = await rollup({
-		plugins: [json(), nodeResolve(), commonjs(), typescript()],
-		input: path.join(path.dirname(pkgPath), pkg.exports),
+		plugins,
+		input: path.join(pkgDir, pkg.exports),
 		external: builtinModules.flatMap((module) => [module, `node:${module}`]),
 	});
 

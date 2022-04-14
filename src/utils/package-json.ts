@@ -5,7 +5,7 @@ import process from 'node:process';
 import rfdc from 'rfdc';
 import type { PackageJson } from 'type-fest';
 
-import { createCommonjsBundle } from '~/utils/publish.js';
+import { createCommonjsBundle } from '~/utils/commonjs.js';
 
 /**
 	Rewrites `./dist/<path>` and `./src/<path>` paths in an object to `./<path>` paths
