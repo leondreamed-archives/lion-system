@@ -6,6 +6,7 @@ import { resolve as importMetaResolve } from 'import-meta-resolve';
 import * as fs from 'node:fs';
 import { builtinModules } from 'node:module';
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { Plugin, RollupOptions } from 'rollup';
 import { rollup } from 'rollup';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
@@ -55,7 +56,7 @@ export async function createCommonjsBundle({
 		plugins.push(
 			typescript({
 				tsconfig: tsconfigPath,
-				tslib: importMetaResolve('tslib', import.meta.url),
+				tslib: fileURLToPath(await importMetaResolve('tslib', import.meta.url)),
 			})
 		);
 	}
@@ -64,6 +65,9 @@ export async function createCommonjsBundle({
 		plugins,
 		input: path.join(pkgDir, pkg.exports),
 		external: builtinModules.flatMap((module) => [module, `node:${module}`]),
+		output: {
+			inlineDynamicImports: true,
+		},
 		...rollupOptions,
 	});
 
