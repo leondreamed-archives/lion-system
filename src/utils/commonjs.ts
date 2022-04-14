@@ -77,8 +77,8 @@ export async function createCommonjsBundle({
 	const bundle = await rollup({
 		plugins,
 		input: path.join(pkgDir, pkg.exports),
-		external,
 		...rollupOptions,
+		external,
 	});
 
 	fs.mkdirSync('dist', { recursive: true });
