@@ -73,6 +73,7 @@ export async function createCommonjsBundle({
 	await bundle.write({
 		dir: './dist/commonjs',
 		format: 'commonjs',
+		entryFileNames: '[name].cjs',
 	});
 
 	const exportsWithoutExtension = path.join(

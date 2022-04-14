@@ -113,8 +113,8 @@ describe('commonjs bundle', () => {
 
 		expect(pkg.exports).toEqual({
 			import: './index.js',
-			require: './index.cjs',
+			require: './commonjs/index.cjs',
 		});
-		expect(fs.existsSync('./dist/index.cjs')).toBe(true);
+		expect(fs.existsSync('./dist/commonjs/index.cjs')).toBe(true);
 	});
 });
