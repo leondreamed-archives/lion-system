@@ -36,9 +36,9 @@ export async function copyPackageFiles({
 					// eslint-disable-next-line no-await-in-loop
 					await transformPackageJson({
 						pkg: JSON.parse(
-							fs.readFileSync(distPackageFilePath, 'utf8')
+							fs.readFileSync(packageFilePath, 'utf8')
 						) as PackageJson,
-						pkgPath: distPackageFilePath,
+						pkgPath: packageFilePath,
 						commonjs,
 					});
 

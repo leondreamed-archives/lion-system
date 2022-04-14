@@ -28,7 +28,7 @@ export async function createCommonjsBundle({
 
 	const bundle = await rollup({
 		plugins: [json(), nodeResolve(), commonjs()],
-		input: path.join(pkgPath, pkg.exports),
+		input: path.join(path.dirname(pkgPath), pkg.exports),
 	});
 
 	if (!fs.existsSync('dist')) {
