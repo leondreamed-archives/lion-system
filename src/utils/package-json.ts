@@ -52,12 +52,12 @@ export async function transformPackageJson(
 			? (JSON.parse(pkgOrJson) as PackageJson)
 			: clone(pkgOrJson);
 
-	rewritePackageJsonPaths(pkg);
-	removePreinstallScript(pkg);
-
 	if (commonjs) {
 		await createCommonjsBundle(pkg);
 	}
+
+	rewritePackageJsonPaths(pkg);
+	removePreinstallScript(pkg);
 
 	return pkg;
 }
