@@ -1,5 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import type { RollupOptions } from 'rollup';
 import type { PackageJson } from 'type-fest';
 
 import { transformPackageJson } from '~/utils/package-json.js';
@@ -13,7 +14,7 @@ type CopyPackageFilesProps = {
 
 		@default true
 	*/
-	commonjs?: boolean;
+	commonjs?: boolean | RollupOptions;
 };
 
 export async function copyPackageFiles({

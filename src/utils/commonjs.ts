@@ -5,20 +5,24 @@ import typescript from '@rollup/plugin-typescript';
 import * as fs from 'node:fs';
 import { builtinModules } from 'node:module';
 import * as path from 'node:path';
-import type { Plugin } from 'rollup';
+import type { Plugin, RollupOptions } from 'rollup';
 import { rollup } from 'rollup';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import type { PackageJson } from 'type-fest';
 
+type CreateCommonjsBundleProps = {
+	pkgPath: string;
+	pkg: PackageJson;
+	rollupOptions?: RollupOptions & { extendPlugins?: Plugin[] };
+};
 /**
 	Bundles all dependencies with Rollup to produce a CommonJS bundle
 */
 export async function createCommonjsBundle({
 	pkgPath,
 	pkg,
-}: {
-	pkgPath: string;
-	pkg: PackageJson;
-}) {
+	rollupOptions,
+}: CreateCommonjsBundleProps) {
 	if (pkg.exports === undefined || pkg.exports === null) {
 		return pkg;
 	}
@@ -32,7 +36,19 @@ export async function createCommonjsBundle({
 	const pkgDir = path.dirname(pkgPath);
 	const tsconfigPath = path.join(pkgDir, 'tsconfig.json');
 
-	const plugins: Plugin[] = [json(), nodeResolve(), commonjs()];
+	// Weird typing for `plugins` comes from rollup
+	const plugins: Array<false | null | undefined | Plugin> = [
+		json(),
+		nodeResolve(),
+		commonjs(),
+		peerDepsExternal({
+			packageJsonPath: pkgPath,
+		}) as Plugin,
+	];
+
+	if (rollupOptions?.extendPlugins !== undefined) {
+		plugins.push(...rollupOptions.extendPlugins);
+	}
 
 	if (fs.existsSync(tsconfigPath)) {
 		plugins.push(
@@ -46,6 +62,7 @@ export async function createCommonjsBundle({
 		plugins,
 		input: path.join(pkgDir, pkg.exports),
 		external: builtinModules.flatMap((module) => [module, `node:${module}`]),
+		...rollupOptions,
 	});
 
 	if (!fs.existsSync('dist')) {

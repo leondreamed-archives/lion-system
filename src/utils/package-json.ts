@@ -3,6 +3,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import process from 'node:process';
 import rfdc from 'rfdc';
+import type { RollupOptions } from 'rollup';
 import type { PackageJson } from 'type-fest';
 
 import { createCommonjsBundle } from '~/utils/commonjs.js';
@@ -45,7 +46,7 @@ type TransformPackageJsonProps =
 	| {
 			pkg: PackageJson;
 			pkgPath: string;
-			commonjs?: boolean;
+			commonjs?: boolean | RollupOptions;
 	  };
 /**
 	Transforms a `package.json` file from a source package.json to a distribution package.json to be published onto `npm`
@@ -68,8 +69,14 @@ export async function transformPackageJson(
 		pkgPath = path.join(process.cwd(), 'package.json');
 	}
 
-	if (commonjs) {
-		await createCommonjsBundle({ pkg, pkgPath });
+	if (commonjs !== false) {
+		const rollupOptions = typeof commonjs === 'object' ? commonjs : undefined;
+
+		await createCommonjsBundle({
+			pkg,
+			pkgPath,
+			rollupOptions,
+		});
 	}
 
 	rewritePackageJsonPaths(pkg);
