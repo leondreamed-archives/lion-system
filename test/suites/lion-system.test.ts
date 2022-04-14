@@ -6,6 +6,7 @@ import { afterEach, describe, expect, test } from 'vitest';
 import {
 	copyPackageFiles,
 	getProjectDir,
+	rewritePackageJsonPaths,
 	transformPackageJson,
 } from '~/index.js';
 import { projectTestPath } from '~test/utils/paths.js';
@@ -100,10 +101,7 @@ test('rewriteDistPaths() works', async () => {
 		},
 	};
 
-	expect(await transformPackageJson(beforeObj)).toEqual(afterObj);
-	expect(await transformPackageJson(JSON.stringify(beforeObj))).toEqual(
-		afterObj
-	);
+	expect(rewritePackageJsonPaths(beforeObj)).toEqual(afterObj);
 });
 
 describe('commonjs bundle', () => {

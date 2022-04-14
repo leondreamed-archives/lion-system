@@ -2,13 +2,20 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { rollup } from 'rollup';
 import type { PackageJson } from 'type-fest';
 
 /**
 	Bundles all dependencies with Rollup to produce a CommonJS bundle
 */
-export async function createCommonjsBundle(pkg: PackageJson) {
+export async function createCommonjsBundle({
+	pkgPath,
+	pkg,
+}: {
+	pkgPath: string;
+	pkg: PackageJson;
+}) {
 	if (pkg.exports === undefined || pkg.exports === null) {
 		return pkg;
 	}
@@ -21,7 +28,7 @@ export async function createCommonjsBundle(pkg: PackageJson) {
 
 	const bundle = await rollup({
 		plugins: [json(), nodeResolve(), commonjs()],
-		input: pkg.exports,
+		input: path.join(pkgPath, pkg.exports),
 	});
 
 	if (!fs.existsSync('dist')) {
@@ -29,7 +36,7 @@ export async function createCommonjsBundle(pkg: PackageJson) {
 	}
 
 	await bundle.write({
-		file: 'dist/index.cjs',
+		file: './dist/index.cjs',
 		format: 'commonjs',
 	});
 

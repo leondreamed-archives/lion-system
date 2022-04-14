@@ -1,5 +1,6 @@
 import { deepKeys, getProperty, setProperty } from 'dot-prop';
 import * as fs from 'node:fs';
+import process from 'node:process';
 import rfdc from 'rfdc';
 import type { PackageJson } from 'type-fest';
 
@@ -36,24 +37,38 @@ export function removePreinstallScript(pkg: PackageJson) {
 
 const clone = rfdc();
 
+type TransformPackageJsonProps =
+	| {
+			commonjs?: boolean;
+	  }
+	| {
+			pkg: PackageJson;
+			pkgPath: string;
+			commonjs?: boolean;
+	  };
 /**
 	Transforms a `package.json` file from a source package.json to a distribution package.json to be published onto `npm`
  */
 export async function transformPackageJson(
-	pkgOrJson?: string | PackageJson,
-	{ commonjs = true }: { commonjs?: boolean } = {}
+	props: TransformPackageJsonProps = {}
 ): Promise<PackageJson> {
-	if (pkgOrJson === undefined) {
-		pkgOrJson = await fs.promises.readFile('package.json', 'utf8');
+	const commonjs = props.commonjs ?? true;
+
+	let pkg: PackageJson;
+	let pkgPath: string;
+
+	if ('pkg' in props) {
+		pkg = clone(props.pkg);
+		pkgPath = props.pkgPath;
+	} else {
+		pkg = JSON.parse(
+			await fs.promises.readFile('package.json', 'utf8')
+		) as PackageJson;
+		pkgPath = process.cwd();
 	}
 
-	const pkg =
-		typeof pkgOrJson === 'string'
-			? (JSON.parse(pkgOrJson) as PackageJson)
-			: clone(pkgOrJson);
-
 	if (commonjs) {
-		await createCommonjsBundle(pkg);
+		await createCommonjsBundle({ pkg, pkgPath });
 	}
 
 	rewritePackageJsonPaths(pkg);
