@@ -1,4 +1,5 @@
 import { expectType } from 'tsd';
+
 import { chProjectDir, getProjectDir } from '~/index.js';
 
 expectType<string>(getProjectDir(import.meta.url));

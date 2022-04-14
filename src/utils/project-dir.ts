@@ -9,15 +9,11 @@ type GetProjectDirOptions = {
 };
 
 /**
- * Gets the base project directory (for monorepos, the root project) using
- * the following heuristic:
- * - There must be a package.json file in the base project directory root
- * - If the directory with a package.json does not have a pnpm-lock.yaml, it
- * means that the project is part of a monorepo.
- * - If a monorepo was detected, that means that the base directory must have a
- * pnpm-workspace.yaml file with a `packages` property that has a matching glob
- * entry that matches
- */
+	Gets the base project directory (for monorepos, the root project) using the following heuristic:
+	- There must be a package.json file in the base project directory root
+	- If the directory with a package.json does not have a pnpm-lock.yaml, it means that the project is part of a monorepo.
+	- If a monorepo was detected, that means that the base directory must have a pnpm-workspace.yaml file with a `packages` property that has a matching glob entry that matches
+*/
 export function getProjectDir(pathUrl: string, options?: GetProjectDirOptions) {
 	// If pnpm-lock.yaml doesn't exist in the directory, continue checking in the above directory
 	if (options?.monorepoRoot) {

@@ -1,7 +1,8 @@
+import { execaCommandSync as exec, execaSync } from 'execa';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import process from 'node:process';
-import { execaCommandSync as exec, execaSync } from 'execa';
+
 import { getCurrentGitBranch } from '~/utils/git.js';
 import { getProjectDir } from '~/utils/project-dir.js';
 

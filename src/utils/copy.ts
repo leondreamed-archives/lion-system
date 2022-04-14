@@ -1,10 +1,24 @@
-import * as path from 'node:path';
 import * as fs from 'node:fs';
-import { rewritePkgPaths } from '~/utils/paths.js';
+import * as path from 'node:path';
+
+import { transformPackageJson } from '~/utils/package-json.js';
 
 export const packageFiles = ['readme.md', 'license', 'package.json'];
 
-export function copyPackageFiles(additionalFiles?: string[]) {
+type CopyPackageFilesProps = {
+	additionalFiles?: string[];
+	/**
+		Whether or not to also create a CommonJS bundle for the project
+
+		@default true
+	*/
+	commonjs?: boolean;
+};
+
+export async function copyPackageFiles({
+	additionalFiles,
+	commonjs,
+}: CopyPackageFilesProps = {}) {
 	if (!fs.existsSync('dist')) {
 		fs.mkdirSync('dist');
 	}
@@ -17,13 +31,16 @@ export function copyPackageFiles(additionalFiles?: string[]) {
 			});
 
 			if (path.parse(packageFilePath).base === 'package.json') {
+				const transformedPackageJson =
+					// eslint-disable-next-line no-await-in-loop
+					await transformPackageJson(
+						fs.readFileSync(distPackageFilePath, 'utf8'),
+						{ commonjs }
+					);
+
 				fs.writeFileSync(
 					distPackageFilePath,
-					JSON.stringify(
-						rewritePkgPaths(fs.readFileSync(distPackageFilePath, 'utf8')),
-						null,
-						'\t'
-					)
+					JSON.stringify(transformedPackageJson, null, '\t')
 				);
 			}
 		}

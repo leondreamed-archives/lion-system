@@ -1,8 +1,13 @@
-import * as process from 'node:process';
-import * as path from 'node:path';
 import * as fs from 'node:fs';
-import { afterEach, describe, test, expect } from 'vitest';
-import { copyPackageFiles, getProjectDir, rewritePkgPaths } from '~/index.js';
+import * as path from 'node:path';
+import * as process from 'node:process';
+import { afterEach, describe, expect, test } from 'vitest';
+
+import {
+	copyPackageFiles,
+	getProjectDir,
+	transformPackageJson,
+} from '~/index.js';
 import { projectTestPath } from '~test/utils/paths.js';
 
 afterEach(() => {
@@ -10,9 +15,11 @@ afterEach(() => {
 });
 
 describe('successfully copies files', () => {
-	test('successfully copies files', () => {
+	test('successfully copies files', async () => {
 		process.chdir(path.join(projectTestPath, 'fixtures/my-project'));
-		copyPackageFiles(['custom-file', 'custom-folder']);
+		await copyPackageFiles({
+			additionalFiles: ['custom-file', 'custom-folder'],
+		});
 		expect(fs.existsSync('dist/readme.md')).toBe(true);
 		expect(fs.existsSync('dist/custom-file')).toBe(true);
 		expect(fs.existsSync('dist/custom-folder')).toBe(true);
@@ -40,7 +47,7 @@ describe('successfully copies files', () => {
 	});
 });
 
-test('rewriteDistPaths() works', () => {
+test('rewriteDistPaths() works', async () => {
 	const beforeObj = {
 		icons: './dist/icons.png',
 		main: './src/index.js',
@@ -93,6 +100,23 @@ test('rewriteDistPaths() works', () => {
 		},
 	};
 
-	expect(rewritePkgPaths(beforeObj)).toEqual(afterObj);
-	expect(rewritePkgPaths(JSON.stringify(beforeObj))).toEqual(afterObj);
+	expect(await transformPackageJson(beforeObj)).toEqual(afterObj);
+	expect(await transformPackageJson(JSON.stringify(beforeObj))).toEqual(
+		afterObj
+	);
+});
+
+describe('commonjs bundle', () => {
+	test('works with commonjs-bundle/', async () => {
+		process.chdir(path.join(projectTestPath, 'fixtures/commonjs-bundle'));
+		await fs.promises.mkdir('dist');
+
+		const pkg = await transformPackageJson();
+
+		expect(pkg.exports).toEqual({
+			import: './index.js',
+			require: './index.cjs',
+		});
+		expect(fs.existsSync('./dist/index.cjs')).toBe(true);
+	});
 });
