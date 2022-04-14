@@ -65,18 +65,13 @@ export async function createCommonjsBundle({
 		plugins,
 		input: path.join(pkgDir, pkg.exports),
 		external: builtinModules.flatMap((module) => [module, `node:${module}`]),
-		output: {
-			inlineDynamicImports: true,
-		},
 		...rollupOptions,
 	});
 
-	if (!fs.existsSync('dist')) {
-		fs.mkdirSync('dist');
-	}
+	fs.mkdirSync('dist/commonjs', { recursive: true });
 
 	await bundle.write({
-		file: './dist/index.cjs',
+		dir: './dist/commonjs',
 		format: 'commonjs',
 	});
 
@@ -87,6 +82,6 @@ export async function createCommonjsBundle({
 
 	pkg.exports = {
 		import: `./${exportsWithoutExtension}.js`,
-		require: './index.cjs',
+		require: './commonjs/index.cjs',
 	};
 }
