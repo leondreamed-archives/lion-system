@@ -65,9 +65,6 @@ export async function createCommonjsBundle({
 		plugins,
 		input: path.join(pkgDir, pkg.exports),
 		external: builtinModules.flatMap((module) => [module, `node:${module}`]),
-		output: {
-			inlineDynamicImports: true,
-		},
 		...rollupOptions,
 	});
 
@@ -76,6 +73,7 @@ export async function createCommonjsBundle({
 	await bundle.write({
 		file: './dist/index.cjs',
 		format: 'commonjs',
+		inlineDynamicImports: true,
 	});
 
 	const exportsWithoutExtension = path.join(
