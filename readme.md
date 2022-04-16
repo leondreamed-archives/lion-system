@@ -1,6 +1,6 @@
 # lion-system
 
-[![npm version](https://badge.fury.io/js/lion-system.svg)](https://badge.fury.io/js/lion-system)
+[![npm version](https://img.shields.io/npm/v/lion-system)](https://npmjs.com/package/lion-system)
 
 Some utilities for my TypeScript workflow.
 
