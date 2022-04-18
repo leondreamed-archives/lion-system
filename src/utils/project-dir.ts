@@ -8,28 +8,47 @@ type GetProjectDirOptions = {
 	monorepoRoot?: boolean;
 };
 
+export function getMonorepoRoot(
+	curDirectory: string = process.cwd()
+): string | undefined {
+	if (fs.statSync(curDirectory).isFile()) {
+		curDirectory = path.dirname(curDirectory);
+	}
+
+	while (curDirectory !== '/') {
+		if (
+			fs.existsSync(path.join(curDirectory, 'pnpm-workspace.yaml')) ||
+			fs.existsSync(path.join(curDirectory, 'pnpm-lock.yaml'))
+		) {
+			return curDirectory;
+		}
+
+		curDirectory = path.dirname(curDirectory);
+	}
+}
+
 /**
 	Gets the base project directory (for monorepos, the root project) using the following heuristic:
 	- There must be a package.json file in the base project directory root
 	- If the directory with a package.json does not have a pnpm-lock.yaml, it means that the project is part of a monorepo.
 	- If a monorepo was detected, that means that the base directory must have a pnpm-workspace.yaml file with a `packages` property that has a matching glob entry that matches
 */
-export function getProjectDir(pathUrl: string, options?: GetProjectDirOptions) {
+export function getProjectDir(
+	pathUrl: string,
+	options?: GetProjectDirOptions
+): string {
 	// If pnpm-lock.yaml doesn't exist in the directory, continue checking in the above directory
 	if (options?.monorepoRoot) {
-		let curDirectory = pathUrl.startsWith('file://')
+		const curDirectory = pathUrl.startsWith('file://')
 			? fileURLToPath(pathUrl)
 			: pathUrl;
 
-		if (fs.statSync(curDirectory).isFile()) {
-			curDirectory = path.dirname(curDirectory);
+		const monorepoRoot = getMonorepoRoot(curDirectory);
+		if (monorepoRoot === undefined) {
+			throw new Error('Monorepo root not found.');
 		}
 
-		while (!fs.existsSync(path.join(curDirectory, 'pnpm-lock.yaml'))) {
-			curDirectory = path.dirname(curDirectory);
-		}
-
-		return curDirectory;
+		return monorepoRoot;
 	} else {
 		const pathDirectory = path.dirname(fileURLToPath(pathUrl));
 		const getPackageJson = (cwd: string) => {

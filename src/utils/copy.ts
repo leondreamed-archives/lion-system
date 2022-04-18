@@ -4,6 +4,7 @@ import type { RollupOptions } from 'rollup';
 import type { PackageJson } from 'type-fest';
 
 import { transformPackageJson } from '~/utils/package-json.js';
+import { getMonorepoRoot } from '~/utils/project-dir.js';
 
 export const packageFiles = ['readme.md', 'license', 'package.json'];
 
@@ -25,9 +26,10 @@ export async function copyPackageFiles({
 		fs.mkdirSync('dist');
 	}
 
+	const monorepoRoot = getMonorepoRoot();
 	for (const packageFilePath of [...packageFiles, ...(additionalFiles ?? [])]) {
+		const distPackageFilePath = path.join('dist', packageFilePath);
 		if (fs.existsSync(packageFilePath)) {
-			const distPackageFilePath = path.join('dist', packageFilePath);
 			fs.cpSync(packageFilePath, distPackageFilePath, {
 				recursive: true,
 			});
@@ -47,6 +49,17 @@ export async function copyPackageFiles({
 					distPackageFilePath,
 					JSON.stringify(transformedPackageJson, null, '\t')
 				);
+			}
+		}
+		// If the project is a monorepo, try copying the project files from the monorepo root
+		else if (monorepoRoot !== undefined) {
+			// Don't copy monorepo package.json files
+			if (packageFilePath === 'package.json') continue;
+
+			const monorepoFilePath = path.join(monorepoRoot, packageFilePath);
+
+			if (fs.existsSync(monorepoFilePath)) {
+				fs.cpSync(monorepoFilePath, distPackageFilePath, { recursive: true });
 			}
 		}
 	}
