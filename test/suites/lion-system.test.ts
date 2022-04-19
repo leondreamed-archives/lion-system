@@ -19,12 +19,19 @@ describe('successfully copies files', () => {
 	test('successfully copies files', async () => {
 		process.chdir(path.join(projectTestPath, 'fixtures/my-project'));
 		await copyPackageFiles({
-			additionalFiles: ['custom-file', 'custom-folder'],
+			additionalFiles: [
+				'custom-file',
+				'custom-folder',
+				'src/file1.html',
+				'./src/file2.html',
+			],
 		});
 		expect(fs.existsSync('dist/readme.md')).toBe(true);
 		expect(fs.existsSync('dist/custom-file')).toBe(true);
 		expect(fs.existsSync('dist/custom-folder')).toBe(true);
 		expect(fs.existsSync('dist/custom-folder/custom-folder-file')).toBe(true);
+		expect(fs.existsSync('dist/file1.html')).toBe(true);
+		expect(fs.existsSync('dist/file2.html')).toBe(true);
 	});
 
 	test('successfully gets the correct project directory', () => {

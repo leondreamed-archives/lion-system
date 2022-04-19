@@ -28,7 +28,19 @@ export async function copyPackageFiles({
 
 	const monorepoRoot = getMonorepoRoot();
 	for (const packageFilePath of [...packageFiles, ...(additionalFiles ?? [])]) {
-		const distPackageFilePath = path.join('dist', packageFilePath);
+		let distPackageFilePath: string;
+		if (
+			packageFilePath.startsWith('src') ||
+			packageFilePath.startsWith('./src')
+		) {
+			distPackageFilePath = path.join(
+				'dist',
+				packageFilePath.replace(/^(\.\/)?src\//, '')
+			);
+		} else {
+			distPackageFilePath = path.join('dist', packageFilePath);
+		}
+
 		if (fs.existsSync(packageFilePath)) {
 			fs.cpSync(packageFilePath, distPackageFilePath, {
 				recursive: true,
