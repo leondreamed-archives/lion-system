@@ -30,9 +30,7 @@ export async function createCommonjsBundle({
 	}
 
 	if (typeof pkg.exports !== 'string') {
-		throw new TypeError(
-			'Using an object with `exports` is not supported (yet)'
-		);
+		return pkg;
 	}
 
 	const pkgDir = path.dirname(pkgPath);
