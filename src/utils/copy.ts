@@ -75,4 +75,6 @@ export async function copyPackageFiles({
 			}
 		}
 	}
+
+	fs.writeFileSync('dist/.gitkeep', '');
 }
