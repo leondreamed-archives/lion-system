@@ -32,6 +32,9 @@ describe('successfully copies files', () => {
 		expect(fs.existsSync('dist/custom-folder/custom-folder-file')).toBe(true);
 		expect(fs.existsSync('dist/file1.html')).toBe(true);
 		expect(fs.existsSync('dist/file2.html')).toBe(true);
+
+		// Adds a .gitkeep file
+		expect(fs.existsSync('dist/.gitkeep')).toBe(true);
 	});
 
 	test('successfully gets the correct project directory', () => {
