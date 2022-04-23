@@ -127,4 +127,19 @@ describe('commonjs bundle', () => {
 		});
 		expect(fs.existsSync('./dist/index.cjs')).toBe(true);
 	});
+
+	test('works with commonjs-bundle-object-exports/', async () => {
+		process.chdir(
+			path.join(projectTestPath, 'fixtures/commonjs-bundle-object-exports')
+		);
+		await fs.promises.mkdir('dist');
+
+		const pkg = await transformPackageJson();
+
+		expect((pkg.exports as Record<string, string>)['.']).toEqual({
+			import: './index.js',
+			require: './index.cjs',
+		});
+		expect(fs.existsSync('./dist/index.cjs')).toBe(true);
+	});
 });

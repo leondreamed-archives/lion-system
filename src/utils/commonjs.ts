@@ -29,7 +29,10 @@ export async function createCommonjsBundle({
 		return pkg;
 	}
 
-	if (typeof pkg.exports !== 'string') {
+	if (
+		typeof pkg.exports !== 'string' &&
+		typeof (pkg.exports as Record<string, unknown>)['.'] !== 'string'
+	) {
 		return pkg;
 	}
 
@@ -72,9 +75,14 @@ export async function createCommonjsBundle({
 		}
 	}
 
+	const pkgImportExport =
+		typeof pkg.exports === 'string'
+			? pkg.exports
+			: (pkg.exports as Record<string, string>)['.']!;
+
 	const bundle = await rollup({
 		plugins,
-		input: path.join(pkgDir, pkg.exports),
+		input: path.join(pkgDir, pkgImportExport),
 		...rollupOptions,
 		external,
 	});
@@ -88,12 +96,22 @@ export async function createCommonjsBundle({
 	});
 
 	const exportsWithoutExtension = path.join(
-		path.dirname(pkg.exports),
-		path.parse(pkg.exports).name
+		path.dirname(pkgImportExport),
+		path.parse(pkgImportExport).name
 	);
 
-	pkg.exports = {
-		import: `./${exportsWithoutExtension}.js`,
-		require: './index.cjs',
-	};
+	if (typeof pkg.exports === 'string') {
+		pkg.exports = {
+			import: `./${exportsWithoutExtension}.js`,
+			require: './index.cjs',
+		};
+	} else {
+		pkg.exports = {
+			...pkg.exports,
+			'.': {
+				import: `./${exportsWithoutExtension}.js`,
+				require: './index.cjs',
+			},
+		};
+	}
 }
