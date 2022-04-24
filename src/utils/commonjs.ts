@@ -9,6 +9,7 @@ import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { ExternalOption, Plugin, RollupOptions } from 'rollup';
 import { rollup } from 'rollup';
+import bundleESM from 'rollup-plugin-bundle-esm';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import type { PackageJson } from 'type-fest';
 
@@ -47,6 +48,7 @@ export async function createCommonjsBundle({
 		json(),
 		nodeResolve(),
 		commonjs(),
+		bundleESM(),
 	];
 
 	if (rollupOptions?.extendPlugins !== undefined) {
