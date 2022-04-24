@@ -7,16 +7,18 @@ import * as fs from 'node:fs';
 import { builtinModules } from 'node:module';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { ExternalOption, Plugin, RollupOptions } from 'rollup';
+import type { ExternalOption, Plugin } from 'rollup';
 import { rollup } from 'rollup';
 import bundleESM from 'rollup-plugin-bundle-esm';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import type { PackageJson } from 'type-fest';
 
+import type { CommonjsBundleOptions } from '~/types.js';
+
 type CreateCommonjsBundleProps = {
 	pkgPath: string;
 	pkg: PackageJson;
-	rollupOptions?: RollupOptions & { extendPlugins?: Plugin[] };
+	rollupOptions?: CommonjsBundleOptions;
 };
 /**
 	Bundles all dependencies with Rollup to produce a CommonJS bundle
@@ -29,6 +31,9 @@ export async function createCommonjsBundle({
 	if (pkg.exports === undefined || pkg.exports === null) {
 		return pkg;
 	}
+
+	const browser = rollupOptions?.browser;
+	delete rollupOptions?.browser;
 
 	if (
 		typeof pkg.exports !== 'string' &&
@@ -46,7 +51,14 @@ export async function createCommonjsBundle({
 			packageJsonPath: pkgPath,
 		}) as Plugin,
 		json(),
-		nodeResolve(),
+		browser
+			? nodeResolve({
+					browser: true,
+			  })
+			: nodeResolve({
+					// Need to remove `default` from the list because some libraries have `default` pointing to the browser version of the package
+					exportConditions: ['node', 'module', 'import'],
+			  }),
 		commonjs(),
 		bundleESM(),
 	];

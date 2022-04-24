@@ -13,6 +13,7 @@ specifiers:
   eslint-define-config: ^1.3.0
   execa: ^6.1.0
   import-meta-resolve: ^1.1.1
+  lion-fixture: ^1.0.0
   pkg-up: ^4.0.0
   rfdc: ^1.3.0
   rollup: ^2.70.1
@@ -45,6 +46,7 @@ devDependencies:
   '@types/rollup-plugin-peer-deps-external': 2.2.1
   desm: 1.2.0
   eslint-define-config: 1.3.0
+  lion-fixture: 1.0.0
   tsd: 0.20.0
   type-fest: 2.12.2
   typescript: 4.6.3
@@ -3373,6 +3375,12 @@ packages:
       yaml: 1.10.2
     transitivePeerDependencies:
       - enquirer
+    dev: true
+
+  /lion-fixture/1.0.0:
+    resolution: {integrity: sha512-Qth5uLX8bAW24PHUQNglXTIRSG9mXZVVULTrxdiANTXKYLxGwhYM2WnpvJQbjsHhYK5M3UYLDkO+OD14UqZyAw==}
+    dependencies:
+      execa: 6.1.0
     dev: true
 
   /lion-git-hooks/1.0.9:

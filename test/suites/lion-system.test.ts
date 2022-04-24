@@ -1,7 +1,10 @@
+import { join } from 'desm';
+import { execaCommandSync } from 'execa';
+import { lionFixture } from 'lion-fixture';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as process from 'node:process';
-import { afterEach, describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 
 import {
 	copyPackageFiles,
@@ -11,13 +14,17 @@ import {
 } from '~/index.js';
 import { projectTestPath } from '~test/utils/paths.js';
 
-afterEach(() => {
-	fs.rmSync('dist', { recursive: true, force: true });
+const { fixture } = lionFixture(import.meta.url);
+
+beforeEach(() => {
+	fs.rmSync(join(import.meta.url, '../temp'), { recursive: true, force: true });
 });
 
 describe('successfully copies files', () => {
 	test('successfully copies files', async () => {
-		process.chdir(path.join(projectTestPath, 'fixtures/my-project'));
+		const tempMyProjectDir = await fixture('my-project');
+		process.chdir(tempMyProjectDir);
+
 		await copyPackageFiles({
 			additionalFiles: [
 				'custom-file',
@@ -116,8 +123,8 @@ test('rewriteDistPaths() works', async () => {
 
 describe('commonjs bundle', () => {
 	test('works with commonjs-bundle/', async () => {
-		process.chdir(path.join(projectTestPath, 'fixtures/commonjs-bundle'));
-		await fs.promises.mkdir('dist');
+		const commonjsBundleTempDir = await fixture('commonjs-bundle');
+		process.chdir(commonjsBundleTempDir);
 
 		const pkg = await transformPackageJson();
 
@@ -129,10 +136,10 @@ describe('commonjs bundle', () => {
 	});
 
 	test('works with commonjs-bundle-object-exports/', async () => {
-		process.chdir(
-			path.join(projectTestPath, 'fixtures/commonjs-bundle-object-exports')
+		const commonjsBundleObjectExportsTempDir = await fixture(
+			'commonjs-bundle-object-exports'
 		);
-		await fs.promises.mkdir('dist');
+		process.chdir(commonjsBundleObjectExportsTempDir);
 
 		const pkg = await transformPackageJson();
 
@@ -141,5 +148,29 @@ describe('commonjs bundle', () => {
 			require: './index.cjs',
 		});
 		expect(fs.existsSync('./dist/index.cjs')).toBe(true);
+	});
+
+	test('works with maybe-browser-bundle/', async () => {
+		const browserBundleTempDir = await fixture(
+			'maybe-browser-bundle',
+			'browser-bundle'
+		);
+		process.chdir(browserBundleTempDir);
+		await copyPackageFiles();
+
+		expect(() => execaCommandSync('node dist/index.cjs')).not.toThrow();
+
+		const browserBundleNodeTempDir = await fixture(
+			'maybe-browser-bundle',
+			'browser-bundle-node'
+		);
+		process.chdir(browserBundleNodeTempDir);
+		await copyPackageFiles({
+			commonjs: {
+				browser: true,
+			},
+		});
+
+		expect(() => execaCommandSync('node dist/index.cjs')).toThrow();
 	});
 });

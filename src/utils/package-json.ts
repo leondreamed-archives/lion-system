@@ -3,9 +3,9 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import process from 'node:process';
 import rfdc from 'rfdc';
-import type { RollupOptions } from 'rollup';
 import type { PackageJson } from 'type-fest';
 
+import type { CommonjsBundleOptions } from '~/types.js';
 import { createCommonjsBundle } from '~/utils/commonjs.js';
 
 /**
@@ -41,12 +41,12 @@ const clone = rfdc();
 
 type TransformPackageJsonProps =
 	| {
-			commonjs?: boolean;
+			commonjs?: boolean | CommonjsBundleOptions;
 	  }
 	| {
 			pkg: PackageJson;
 			pkgPath: string;
-			commonjs?: boolean | RollupOptions;
+			commonjs?: boolean | CommonjsBundleOptions;
 	  };
 /**
 	Transforms a `package.json` file from a source package.json to a distribution package.json to be published onto `npm`

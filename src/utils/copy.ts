@@ -15,7 +15,7 @@ type CopyPackageFilesProps = {
 
 		@default true
 	*/
-	commonjs?: boolean | RollupOptions;
+	commonjs?: boolean | (RollupOptions & { browser?: boolean });
 };
 
 export async function copyPackageFiles({
