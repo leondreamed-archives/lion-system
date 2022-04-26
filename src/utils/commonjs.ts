@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 import type { ExternalOption, Plugin } from 'rollup';
 import { rollup } from 'rollup';
 import bundleESM from 'rollup-plugin-bundle-esm';
-import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import depsExternal from 'rollup-plugin-deps-external';
 import type { PackageJson } from 'type-fest';
 
 import type { CommonjsBundleOptions } from '~/types.js';
@@ -47,9 +47,8 @@ export async function createCommonjsBundle({
 
 	// Weird typing for `plugins` comes from rollup
 	const plugins: Array<false | null | undefined | Plugin> = [
-		peerDepsExternal({
-			packageJsonPath: pkgPath,
-		}) as Plugin,
+		bundleESM(),
+		depsExternal({ packagePath: pkgPath }),
 		json(),
 		browser
 			? nodeResolve({
@@ -60,7 +59,6 @@ export async function createCommonjsBundle({
 					exportConditions: ['node', 'module', 'import'],
 			  }),
 		commonjs(),
-		bundleESM(),
 	];
 
 	if (rollupOptions?.extendPlugins !== undefined) {
