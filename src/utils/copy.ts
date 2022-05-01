@@ -8,7 +8,7 @@ import { getMonorepoRoot } from '~/utils/project-dir.js';
 
 export const packageFiles = ['readme.md', 'license', 'package.json'];
 
-type CopyPackageFilesProps = {
+interface CopyPackageFilesProps {
 	additionalFiles?: string[];
 	/**
 		Whether or not to also create a CommonJS bundle for the project
@@ -16,7 +16,7 @@ type CopyPackageFilesProps = {
 		@default true
 	*/
 	commonjs?: boolean | (RollupOptions & { browser?: boolean });
-};
+}
 
 export async function copyPackageFiles({
 	additionalFiles,

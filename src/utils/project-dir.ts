@@ -4,9 +4,9 @@ import * as process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { pkgUpSync } from 'pkg-up';
 
-type GetProjectDirOptions = {
+interface GetProjectDirOptions {
 	monorepoRoot?: boolean;
-};
+}
 
 export function getMonorepoRoot(
 	curDirectory: string = process.cwd()
