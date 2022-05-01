@@ -1,6 +1,6 @@
 import { join } from 'desm';
 import { execaCommandSync } from 'execa';
-import { lionFixture } from 'lion-fixture';
+import lionFixture from 'lion-fixture';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as process from 'node:process';
