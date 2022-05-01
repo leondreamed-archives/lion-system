@@ -5,6 +5,10 @@ interface RmDistProps {
 	removeFolder: boolean;
 }
 export function rmDist(props?: RmDistProps) {
+	if (!fs.existsSync('dist')) {
+		return;
+	}
+
 	if (props?.removeFolder) {
 		fs.rmSync('dist', { recursive: true, force: true });
 	} else {
