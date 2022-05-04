@@ -23,7 +23,7 @@
 	"dependencies": {
 		"@rollup/plugin-commonjs": "^22.0.0",
 		"@rollup/plugin-json": "^4.1.0",
-		"@rollup/plugin-node-resolve": "^13.2.1",
+		"@rollup/plugin-node-resolve": "^13.3.0",
 		"@rollup/plugin-typescript": "^8.3.2",
 		"dot-prop": "^7.2.0",
 		"execa": "^6.1.0",
@@ -36,15 +36,15 @@
 		"tslib": "^2.4.0"
 	},
 	"devDependencies": {
-		"@leonzalion/configs": "^1.2.32",
-		"@types/node": "^17.0.30",
+		"@leonzalion/configs": "^1.4.4",
+		"@types/node": "^17.0.31",
 		"desm": "^1.2.0",
 		"eslint-define-config": "^1.4.0",
 		"lion-fixture": "^1.1.1",
 		"tsd": "^0.20.0",
 		"type-fest": "^2.12.2",
 		"typescript": "^4.6.4",
-		"vitest": "^0.10.0"
+		"vitest": "^0.10.2"
 	},
 	"publishConfig": {
 		"directory": "dist"
