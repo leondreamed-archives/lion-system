@@ -22,9 +22,9 @@ export function prePush() {
 	try {
 		const monorepoDir = getProjectDir(process.cwd(), { monorepoRoot: true });
 		if (fs.existsSync(path.join(monorepoDir, 'pnpm-workspace.yaml'))) {
-			exec('pnpm run -w tc', { stdio: 'inherit' });
+			exec('pnpm run -w typecheck', { stdio: 'inherit' });
 		} else {
-			exec('pnpm run tc', { stdio: 'inherit' });
+			exec('pnpm run typecheck', { stdio: 'inherit' });
 		}
 	} catch {
 		process.exit(1);
