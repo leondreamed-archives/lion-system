@@ -33,7 +33,8 @@
 		"rollup": "^2.72.0",
 		"rollup-plugin-bundle-esm": "^0.1.1",
 		"rollup-plugin-deps-external": "^0.2.1",
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.0",
+		"typescript": "^4.6.4"
 	},
 	"devDependencies": {
 		"@leonzalion/configs": "^1.4.5",
@@ -43,7 +44,6 @@
 		"lion-fixture": "^1.1.1",
 		"tsd": "^0.20.0",
 		"type-fest": "^2.12.2",
-		"typescript": "^4.6.4",
 		"vitest": "^0.10.4"
 	},
 	"publishConfig": {
