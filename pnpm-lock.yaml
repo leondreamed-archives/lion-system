@@ -38,6 +38,7 @@ dependencies:
   rollup-plugin-bundle-esm: 0.1.1
   rollup-plugin-deps-external: 0.2.1
   tslib: 2.4.0
+  typescript: 4.6.4
 
 devDependencies:
   '@leonzalion/configs': 1.4.5_typescript@4.6.4
@@ -47,7 +48,6 @@ devDependencies:
   lion-fixture: 1.1.1
   tsd: 0.20.0
   type-fest: 2.12.2
-  typescript: 4.6.4
   vitest: 0.10.4
 
 packages:
@@ -5234,7 +5234,6 @@ packages:
     resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /uc.micro/1.0.6:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
