@@ -7,7 +7,9 @@ import { getCurrentGitBranch } from '~/utils/git.js';
 import { getProjectDir } from '~/utils/project-dir.js';
 
 export function preCommit() {
-	if (getCurrentGitBranch() === 'dev') return;
+	if (getCurrentGitBranch() === 'dev') {
+		return;
+	}
 
 	try {
 		exec('pnpm exec lint-staged', { stdio: 'inherit' });
@@ -17,14 +19,16 @@ export function preCommit() {
 }
 
 export function prePush() {
-	if (getCurrentGitBranch() === 'dev') return;
+	if (getCurrentGitBranch() === 'dev') {
+		return;
+	}
 
 	try {
 		const monorepoDir = getProjectDir(process.cwd(), { monorepoRoot: true });
 		if (fs.existsSync(path.join(monorepoDir, 'pnpm-workspace.yaml'))) {
-			exec('pnpm run -w typecheck', { stdio: 'inherit' });
+			exec('pnpm recursive exec typecheck', { stdio: 'inherit' });
 		} else {
-			exec('pnpm run typecheck', { stdio: 'inherit' });
+			exec('pnpm exec typecheck', { stdio: 'inherit' });
 		}
 	} catch {
 		process.exit(1);
