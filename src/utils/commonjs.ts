@@ -11,6 +11,7 @@ import type { ExternalOption, Plugin } from 'rollup';
 import { rollup } from 'rollup';
 import bundleESM from 'rollup-plugin-bundle-esm';
 import depsExternal from 'rollup-plugin-deps-external';
+import jsImports from 'rollup-plugin-js-imports';
 import type { PackageJson } from 'type-fest';
 
 import type { CommonjsBundleOptions } from '~/types.js';
@@ -19,7 +20,7 @@ interface CreateCommonjsBundleProps {
 	pkgPath: string;
 	pkg: PackageJson;
 	rollupOptions?: CommonjsBundleOptions;
-};
+}
 /**
 	Bundles all dependencies with Rollup to produce a CommonJS bundle
 */
@@ -47,6 +48,7 @@ export async function createCommonjsBundle({
 
 	// Weird typing for `plugins` comes from rollup
 	const plugins: Array<false | null | undefined | Plugin> = [
+		jsImports(),
 		bundleESM(),
 		depsExternal({ packagePath: pkgPath }),
 		json(),

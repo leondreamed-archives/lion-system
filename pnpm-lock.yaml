@@ -18,6 +18,7 @@ specifiers:
   rollup: ^2.72.0
   rollup-plugin-bundle-esm: ^0.1.1
   rollup-plugin-deps-external: ^0.2.1
+  rollup-plugin-js-imports: ^1.2.0
   tsd: ^0.20.0
   tslib: ^2.4.0
   type-fest: ^2.12.2
@@ -37,6 +38,7 @@ dependencies:
   rollup: 2.72.0
   rollup-plugin-bundle-esm: 0.1.1
   rollup-plugin-deps-external: 0.2.1
+  rollup-plugin-js-imports: 1.2.0
   tslib: 2.4.0
   typescript: 4.6.4
 
@@ -3762,7 +3764,7 @@ packages:
       tsconfig-paths: 4.0.0
       update-notifier: 5.1.0
       webpack: /ignoredep/25.9999.0
-      xo: 0.48.0_47ahfni6qydt6vc5isel5ggf2e
+      xo: 0.48.0_ignoredep@25.9999.0
     transitivePeerDependencies:
       - '@swc/wasm'
       - enquirer
@@ -5037,6 +5039,12 @@ packages:
       read-pkg: 7.1.0
       resolve: 1.22.0
 
+  /rollup-plugin-js-imports/1.2.0:
+    resolution: {integrity: sha512-XcO2XqttJyyuH6fPaE/xwr7u+SE+oTsjelv59CZBuiNv8MQuYZG+5XwePdQ5E77B/tGRbKCG5ZaWqmk9y9EeVA==}
+    peerDependencies:
+      vite: ^2.9.0
+    dev: false
+
   /rollup/2.72.0:
     resolution: {integrity: sha512-KqtR2YcO35/KKijg4nx4STO3569aqCUeGRkKWnJ6r+AvBBrVY9L4pmf4NHVrQr4mTOq6msbohflxr2kpihhaOA==}
     engines: {node: '>=10.0.0'}
@@ -5836,18 +5844,21 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /xo/0.48.0_47ahfni6qydt6vc5isel5ggf2e:
+  /xo/0.48.0_ignoredep@25.9999.0:
     resolution: {integrity: sha512-f0sbQGJoML3nwOLG7EIAJroBypmLokoGJqTPN+bI/oogKLMciqWBEiFh9Vpxnfwxafq1AkHoWrQZQWSflDCG1w==}
     engines: {node: '>=12.20'}
     hasBin: true
     dependencies:
       '@eslint/eslintrc': 1.2.3
+      '@typescript-eslint/eslint-plugin': 5.23.0_c63nfttrfhylg3zmgcxfslaw44
+      '@typescript-eslint/parser': 5.23.0_hcfsmds2fshutdssjqluwm76uu
       arrify: 3.0.0
       cosmiconfig: 7.0.1
       define-lazy-prop: 3.0.0
       eslint: 8.15.0
       eslint-config-prettier: 8.5.0_eslint@8.15.0
       eslint-config-xo: 0.40.0_eslint@8.15.0
+      eslint-config-xo-typescript: 0.50.0_e7gutnfghaqyyhr6yy257tdcjm
       eslint-formatter-pretty: 4.1.0
       eslint-import-resolver-webpack: 0.13.2_vaezxk2hyfnncf5nd77py7moyy
       eslint-plugin-ava: 13.2.0_eslint@8.15.0
@@ -5875,7 +5886,6 @@ packages:
       to-absolute-glob: 2.0.2
       typescript: 4.6.4
     transitivePeerDependencies:
-      - '@typescript-eslint/parser'
       - eslint-import-resolver-typescript
       - supports-color
       - webpack
