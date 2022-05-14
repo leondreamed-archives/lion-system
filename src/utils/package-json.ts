@@ -23,6 +23,13 @@ export function rewritePackageJsonPaths(pkg: PackageJson): PackageJson {
 			} else if (value.startsWith('./src')) {
 				setProperty(pkg, property, value.replace(/^\.\/src\//, './'));
 			}
+
+			if (
+				value.endsWith('.ts') &&
+				(value.startsWith('./src') || value.startsWith('src'))
+			) {
+				setProperty(pkg, property, value.replace(/\.ts$/, '.js'));
+			}
 		}
 	}
 
