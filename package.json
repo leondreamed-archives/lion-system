@@ -15,10 +15,7 @@
 		"build": "node-ts ./scripts/build.ts",
 		"prepare": "lion-git-hooks",
 		"start": "node-ts ./src/index.ts",
-		"test": "vitest run --no-threads",
-		"lint": "eslint --cache --fix .",
-		"prettier": "prettier --write src",
-		"typecheck": "tsc --noEmit"
+		"test": "vitest run --no-threads"
 	},
 	"dependencies": {
 		"@rollup/plugin-commonjs": "^22.0.0",
