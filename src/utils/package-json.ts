@@ -16,21 +16,21 @@ import { createCommonjsBundle } from '~/utils/commonjs.js';
 export function rewritePackageJsonPaths(pkg: PackageJson): PackageJson {
 	for (const property of deepKeys(pkg)) {
 		// eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-		const value = getProperty(pkg, property) as unknown;
+		let value = getProperty(pkg, property) as unknown as string;
+
 		if (typeof value === 'string') {
 			if (value.startsWith('./dist')) {
-				setProperty(pkg, property, value.replace(/^\.\/dist\//, './'));
+				value = value.replace(/^\.\/dist\//, './');
 			} else if (value.startsWith('./src')) {
-				setProperty(pkg, property, value.replace(/^\.\/src\//, './'));
+				value = value.replace(/^\.\/src\//, './');
 			}
 
-			if (
-				value.endsWith('.ts') &&
-				(value.startsWith('./src') || value.startsWith('src'))
-			) {
-				setProperty(pkg, property, value.replace(/\.ts$/, '.js'));
+			if (value.endsWith('.ts') && !value.endsWith('.d.ts')) {
+				value = value.replace(/\.ts$/, '.js');
 			}
 		}
+
+		setProperty(pkg, property, value);
 	}
 
 	return pkg;
