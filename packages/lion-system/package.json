@@ -38,6 +38,7 @@
 		"lion-fixture": "^1.1.8",
 		"tsd": "^0.20.0",
 		"type-fest": "^2.12.2",
+		"typescript": "^4.6.4",
 		"vitest": "^0.12.6"
 	},
 	"publishConfig": {

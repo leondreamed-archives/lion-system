@@ -33,12 +33,13 @@ importers:
       tsd: ^0.20.0
       tslib: ^2.4.0
       type-fest: ^2.12.2
+      typescript: ^4.6.4
       vitest: ^0.12.6
     dependencies:
       '@rollup/plugin-commonjs': 22.0.0_rollup@2.73.0
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
-      '@rollup/plugin-typescript': 8.3.2_rollup@2.73.0+tslib@2.4.0
+      '@rollup/plugin-typescript': 8.3.2_qvmxwb53ll4ofwdq3bekbs74hi
       detect-indent: 7.0.0
       dot-prop: 7.2.0
       execa: 6.1.0
@@ -55,6 +56,7 @@ importers:
       lion-fixture: 1.1.8
       tsd: 0.20.0
       type-fest: 2.12.2
+      typescript: 4.6.4
       vitest: 0.12.6
 
   packages/scripts:
@@ -605,7 +607,7 @@ packages:
       rollup: 2.73.0
     dev: false
 
-  /@rollup/plugin-typescript/8.3.2_rollup@2.73.0+tslib@2.4.0:
+  /@rollup/plugin-typescript/8.3.2_qvmxwb53ll4ofwdq3bekbs74hi:
     resolution: {integrity: sha512-MtgyR5LNHZr3GyN0tM7gNO9D0CS+Y+vflS4v/PHmrX17JCkHUYKvQ5jN5o3cz1YKllM3duXUqu3yOHwMPUxhDg==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
@@ -617,6 +619,7 @@ packages:
       resolve: 1.22.0
       rollup: 2.73.0
       tslib: 2.4.0
+      typescript: 4.6.4
     dev: false
 
   /@rollup/plugin-typescript/8.3.2_wn2nkxxtuxf2z5f6of6kf2cgzi:
