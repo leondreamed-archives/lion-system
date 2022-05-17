@@ -7,3 +7,4 @@ export {
 } from './utils/package-json.js';
 export { chProjectDir, getProjectDir } from './utils/project-dir.js';
 export { rmDist } from './utils/rm.js';
+export { updateJsonFile } from './utils/json.js';
