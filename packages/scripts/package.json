@@ -1,6 +1,4 @@
 {
 	"name": "@lion-system/scripts",
-	"dependencies": {
-		"lion-system": "../lion-system/dist"
-	}
+	"dependencies": {}
 }

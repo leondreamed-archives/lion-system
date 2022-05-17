@@ -2,6 +2,7 @@
 	"name": "@lion-system/monorepo",
 	"devDependencies": {
 		"@types/node": "^17.0.31",
+		"lionconfig": "^1.7.3",
 		"typescript": "^4.6.4"
 	}
 }
