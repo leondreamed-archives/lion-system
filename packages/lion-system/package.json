@@ -12,7 +12,6 @@
 	"homepage": "https://github.com/leonzalion/lion-system#readme",
 	"scripts": {
 		"preinstall": "pnpm build",
-		"release": "lionp",
 		"build": "node-ts ./scripts/build.ts",
 		"start": "node-ts ./src/index.ts",
 		"test": "vitest run --no-threads"
